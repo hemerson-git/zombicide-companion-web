@@ -1,0 +1,52 @@
+.progressContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  flex: 1;
+
+  height: 3.5rem;
+
+  .levelItem {
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    justify-content: center;
+
+
+    border-left: 1px solid var(--semi-transparent);
+
+    &.active {
+      box-shadow: inset 0 0 16px rgb(7, 177, 64);
+      animation: blink 1s linear infinite;
+    }
+  }
+
+  .blue {
+    background-color: var(--blue);
+  }
+
+  .orange {
+    background-color: var(--orange);
+  }
+
+  .yellow {
+    background-color: var(--yellow);
+  }
+
+  .red {
+    background-color: var(--red);
+  }
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

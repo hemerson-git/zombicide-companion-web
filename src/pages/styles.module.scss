@@ -24,13 +24,17 @@
     margin-bottom: 1.2rem;
   }
 
-  button {
+  button,
+  .btnGameStart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     cursor: pointer;
     width: 200px;
     height: 2.5rem;
     background-color: var(--primary);
     color: var(--white);
-    border: none;
     border-radius: .5rem;
     margin-bottom: .875rem;
     transition: filter .3s linear;

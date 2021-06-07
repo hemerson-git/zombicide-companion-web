@@ -1,5 +1,7 @@
 import { GetServerSideProps } from "next";
 
+import { FiChevronRight } from "react-icons/fi";
+
 import styles from "../styles/survivals.module.scss";
 
 import server from "../../server.json";
@@ -22,13 +24,13 @@ function Survivals() {
         {survivals.map((survival) => {
           let { name, id, text } = survival;
           return (
-            <SurvivalCard key={survival.id} survival={{name, id, text}} />
-          )
+            <SurvivalCard key={survival.id} survival={{ name, id, text }} />
+          );
         })}
       </div>
 
       <a href="/game" className={styles.btnGameStart}>
-        =>
+        <FiChevronRight />
       </a>
     </section>
   );

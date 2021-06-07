@@ -1,5 +1,8 @@
-import Head from "next/head";
 import { useState } from "react";
+
+import Head from "next/head";
+import Link from "next/link";
+
 import styles from "./styles.module.scss";
 
 export default function Home() {
@@ -18,7 +21,9 @@ export default function Home() {
           Continuar
         </button>
 
-        <button type="button">Iniciar Jogo</button>
+        <Link href="/survivals">
+          <a className={styles.btnGameStart}>Iniciar Jogo</a>
+        </Link>
       </section>
     </div>
   );
