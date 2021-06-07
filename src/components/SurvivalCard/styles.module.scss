@@ -1,0 +1,44 @@
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 30%;
+
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.2rem;
+  border: none;
+
+  cursor: pointer;
+
+  max-width: calc(100% - 30px);
+
+  background-color: var(--semi-transparent);
+  margin: 0 1rem 1rem 0;
+  outline: none;
+
+  .cardBody {
+    position: absolute;
+    color: var(--white);
+    max-width: 42%;
+    top: 50%;
+    right: .7rem;
+    transform: translateY(-50%);
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  img {
+    transition: filter .3s ease-in-out, opacity .3s linear;
+
+    &.disabled {
+      filter: saturate(0);
+      opacity: .6;
+
+      &:hover {
+        opacity: .8;
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.survivalSelectContainer {
+  backdrop-filter: blur(4px);
+
+  h1 {
+    text-align: center;
+    color: var(--white);
+  }
+
+  .survivalsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btnGameStart {
+    display: block;
+    margin-left: auto;
+
+    background-color: var(--semi-transparent);
+    border: none;
+  }
+}
