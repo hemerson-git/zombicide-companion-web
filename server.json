@@ -1,0 +1,63 @@
+{
+  "characters": [
+    {
+      "id": "wanda",
+      "name": "Wanda",
+      "default-skill": "2 Zonas por ação de movimento",
+      "text": "Tira a mão daí, senão eu corto fora!",
+
+      "levels" : [
+        {
+          "yellow": {
+            "skill": "+1 Ação"
+          },
+
+          "orange": {
+            "skill-options": [
+              {"skill": "+1 Re-rolagem de dado: Faca"},
+              {"skill": "Lisa"}
+            ]
+          },
+
+          "red": {
+            "skill-options": [
+              {"skill": "+1 Dado: Combate"},
+              {"skill": "+1 Ação de movimento"},
+              {"skill": "+1 Zona por movimento"}
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "wanda",
+      "name": "Wanda",
+      "default-skill": "2 Zonas por ação de movimento",
+      "text": "lorem ipsum",
+
+      "levels" : [
+        {
+          "yellow": {
+            "skill": "+1 Ação"
+          },
+
+          "orange": {
+            "skill-options": [
+              {"skill": "+1 Re-rolagem de dado: Faca"},
+              {"skill": "Lisa"}
+            ]
+          },
+
+          "red": {
+            "skill-options": [
+              {"skill": "+1 Dado: Combate"},
+              {"skill": "+1 Ação de movimento"},
+              {"skill": "+1 Zona por movimento"}
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
