@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 
 import ProgressBar from "../components/Progress";
 
 import styles from "../styles/game.module.scss";
+import { useSurvival } from "../contexts/charSelecteds";
 
 type SurvivalsProps = {
   name: string;
@@ -17,9 +18,12 @@ type SelectedSurvivalProps = {
 };
 
 function Game() {
+  const { selectedSurvivals } = useSurvival();
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
-  const [selectedSurvival, setSelectedSurvival] =
-    useState<SelectedSurvivalProps | null>(null);
+
+  useEffect(() => {
+    console.log(selectedSurvivals);
+  }, []);
 
   return (
     <section className={styles.gameContainer}>

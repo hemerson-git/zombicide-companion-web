@@ -1,12 +1,25 @@
 import Image from "next/image";
 import { useState } from "react";
+import { useSurvival } from "../../contexts/charSelecteds";
 
 import styles from "./styles.module.scss";
+
+type SkillOptionsProps = {
+  "skill-options": {
+    skill: string;
+  }[];
+};
 
 type Survival = {
   id: string;
   name: string;
   text: string;
+  defaultSkill: string;
+  levels: {
+    yellow: SkillOptionsProps;
+    orange: SkillOptionsProps;
+    red: SkillOptionsProps;
+  }[];
 };
 
 type SurvivalCardProps = {
@@ -15,13 +28,22 @@ type SurvivalCardProps = {
 
 function SurvivalCard({ survival }: SurvivalCardProps) {
   const [selected, setSelected] = useState(false);
+  const { handleAddSurvival } = useSurvival();
 
-  function handleSelect() {
+  function handleSelect(survival: Survival) {
     setSelected(!selected);
+    const isSelected = !selected;
+
+    if (isSelected) {
+      handleAddSurvival(survival);
+    }
   }
 
   return (
-    <button className={styles.cardContainer} onClick={handleSelect}>
+    <button
+      className={styles.cardContainer}
+      onClick={() => handleSelect(survival)}
+    >
       <Image
         width={380}
         height={260}

@@ -1,5 +1,7 @@
 import { FiChevronRight } from "react-icons/fi";
 
+import Link from "next/link";
+
 import styles from "../styles/survivals.module.scss";
 
 import SurvivalCard from "../components/SurvivalCard";
@@ -15,15 +17,15 @@ function Survivals() {
       <div className={styles.survivalsContainer}>
         {survivals?.map((survival) => {
           let { name, id, text } = survival;
-          return (
-            <SurvivalCard key={survival.id} survival={{ name, id, text }} />
-          );
+          return <SurvivalCard key={survival.id} survival={survival} />;
         })}
       </div>
 
-      <a href="/game" className={styles.btnGameStart}>
-        <FiChevronRight />
-      </a>
+      <Link href="/game">
+        <a className={styles.btnGameStart}>
+          <FiChevronRight />
+        </a>
+      </Link>
     </section>
   );
 }

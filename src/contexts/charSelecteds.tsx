@@ -21,8 +21,8 @@ type Survival = {
 };
 
 type SurvivalContextProps = {
-  handleSetSelectedSurvival: (survival: Survival) => void;
-  selectedSurvival: Survival;
+  handleAddSurvival: (survival: Survival) => void;
+  selectedSurvivals: Survival[];
   nowPlaying: string;
   survivals: Survival[];
 };
@@ -36,8 +36,8 @@ type SurvivalProviderProps = {
 };
 
 export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
-  const [selectedSurvival, setSelectedSurvival] = useState<Survival>();
   const [nowPlaying, setNowPlaying] = useState<string | null>(null);
+  const [selectedSurvivals, setSelectedSurvivals] = useState<Survival[]>([]);
 
   const survivals = characters.map((survival) => {
     return {
@@ -49,15 +49,15 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     };
   });
 
-  function handleSetSelectedSurvival(survival: Survival) {
-    setSelectedSurvival(survival);
+  function handleAddSurvival(survival: Survival) {
+    setSelectedSurvivals([...selectedSurvivals, survival]);
   }
 
   return (
     <SurvivalContext.Provider
       value={{
-        handleSetSelectedSurvival,
-        selectedSurvival,
+        handleAddSurvival,
+        selectedSurvivals,
         nowPlaying,
         survivals,
       }}
