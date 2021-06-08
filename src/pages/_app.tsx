@@ -1,10 +1,13 @@
+import { SurvivalSelectProvider } from "../contexts/charSelecteds";
 import "../styles/global.css";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <main className="container">
-      <Component {...pageProps} />
-    </main>
+    <SurvivalSelectProvider>
+      <main className="container">
+        <Component {...pageProps} />
+      </main>
+    </SurvivalSelectProvider>
   );
 }
 
