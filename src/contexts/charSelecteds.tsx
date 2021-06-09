@@ -25,6 +25,8 @@ type SurvivalContextProps = {
   selectedSurvivals: Survival[];
   nowPlaying: string;
   survivals: Survival[];
+  pushSelectedSurvivals: (survivals: Survival[]) => void;
+  resetSelectedSurvivals: () => void;
 };
 
 const SurvivalContext = createContext({} as SurvivalContextProps);
@@ -53,6 +55,15 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     setSelectedSurvivals([...selectedSurvivals, survival]);
   }
 
+  function pushSelectedSurvivals(survivals: Survival[]) {
+    setSelectedSurvivals(survivals);
+  }
+
+  function resetSelectedSurvivals() {
+    setSelectedSurvivals([]);
+    localStorage.removeItem("@Zombicide_selectedSurvivals");
+  }
+
   return (
     <SurvivalContext.Provider
       value={{
@@ -60,6 +71,8 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         selectedSurvivals,
         nowPlaying,
         survivals,
+        pushSelectedSurvivals,
+        resetSelectedSurvivals,
       }}
     >
       {children}

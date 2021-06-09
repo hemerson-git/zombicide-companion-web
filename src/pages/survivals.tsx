@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FiChevronRight } from "react-icons/fi";
 
 import Link from "next/link";
@@ -5,10 +6,14 @@ import Link from "next/link";
 import styles from "../styles/survivals.module.scss";
 
 import SurvivalCard from "../components/SurvivalCard";
-import { SurvivalSelectProvider, useSurvival } from "../contexts/charSelecteds";
+import { useSurvival } from "../contexts/charSelecteds";
 
 function Survivals() {
-  const { survivals } = useSurvival();
+  const { survivals, resetSelectedSurvivals } = useSurvival();
+
+  useEffect(() => {
+    resetSelectedSurvivals();
+  }, []);
 
   return (
     <section className={styles.survivalSelectContainer}>

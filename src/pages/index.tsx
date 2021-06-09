@@ -1,12 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Head from "next/head";
 import Link from "next/link";
 
 import styles from "./styles.module.scss";
+import { useSurvival } from "../contexts/charSelecteds";
 
 export default function Home() {
-  const [gameID, setGameId] = useState<string | null>(null);
+  const [canContinue, setCanContinue] = useState(false);
+  const { pushSelectedSurvivals } = useSurvival();
+
+  useEffect(() => {
+    const survivals = localStorage.getItem("@Zombicide_selectedSurvivals");
+
+    if (survivals) {
+      setCanContinue(true);
+      pushSelectedSurvivals(JSON.parse(survivals));
+    }
+  }, []);
 
   return (
     <div className={styles.homepage}>
@@ -17,9 +28,11 @@ export default function Home() {
       <section className={styles.popupContainer}>
         <h1>Main Menu</h1>
 
-        <button type="button" disabled>
-          Continuar
-        </button>
+        <Link href="/game">
+          <button type="button" disabled={!canContinue}>
+            Continuar
+          </button>
+        </Link>
 
         <Link href="/survivals">
           <a className={styles.btnGameStart}>Iniciar Jogo</a>
