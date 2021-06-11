@@ -13,6 +13,8 @@ type Survival = {
   name: string;
   text: string;
   defaultSkill: string;
+  userLevel: number;
+  xp: number;
   levels: {
     yellow: SkillOptionsProps;
     orange: SkillOptionsProps;
@@ -23,10 +25,15 @@ type Survival = {
 type SurvivalContextProps = {
   handleAddSurvival: (survival: Survival) => void;
   selectedSurvivals: Survival[];
-  nowPlaying: string;
+  nowPlaying: Survival;
   survivals: Survival[];
   pushSelectedSurvivals: (survivals: Survival[]) => void;
   resetSelectedSurvivals: () => void;
+  handleSetNowPlaying: (survival: Survival) => void;
+  handleSetSurvivalXP: (
+    survival: Survival,
+    operation: "minus" | "plus"
+  ) => void;
 };
 
 const SurvivalContext = createContext({} as SurvivalContextProps);
@@ -38,7 +45,7 @@ type SurvivalProviderProps = {
 };
 
 export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
-  const [nowPlaying, setNowPlaying] = useState<string | null>(null);
+  const [nowPlaying, setNowPlaying] = useState({} as Survival);
   const [selectedSurvivals, setSelectedSurvivals] = useState<Survival[]>([]);
 
   const survivals = characters.map((survival) => {
@@ -48,8 +55,24 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
       text: survival.text,
       defaultSkill: survival["default-skill"],
       levels: survival.levels,
+      userLevel: 0,
+      xp: 0,
     };
   });
+
+  function saveGame() {
+    localStorage.setItem(
+      "@Zombicide_selectedSurvivals",
+      JSON.stringify(selectedSurvivals)
+    );
+  }
+
+  function loadSurvivalsInfo() {
+    const survivals = JSON.parse(
+      localStorage.getItem("@Zombicide_selectedSurvivals")
+    );
+    return survivals;
+  }
 
   function handleAddSurvival(survival: Survival) {
     setSelectedSurvivals([...selectedSurvivals, survival]);
@@ -64,6 +87,56 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     localStorage.removeItem("@Zombicide_selectedSurvivals");
   }
 
+  function handleSetNowPlaying(survival: Survival) {
+    const survivals = loadSurvivalsInfo();
+    console.log(survivals, survival);
+
+    survivals?.map((char: Survival) => {
+      if (char.id === survivals.id) {
+        survival = char;
+      }
+    });
+
+    setNowPlaying(survival);
+  }
+
+  function handleSetSurvivalXP(survival: Survival, operation: string) {
+    let newXP = survival.xp;
+
+    if (operation === "minus" && survival.xp > 0) {
+      newXP = survival.xp - 1;
+    }
+
+    if (operation === "plus" && survival.xp < 43) {
+      newXP = survival.xp + 1;
+    }
+
+    survival = {
+      id: nowPlaying.id,
+      name: nowPlaying.name,
+      text: nowPlaying.text,
+      defaultSkill: nowPlaying["default-skill"],
+      levels: nowPlaying.levels,
+      userLevel: 0,
+      xp: newXP,
+    };
+
+    const updatedSelecteds = selectedSurvivals?.map((char) => {
+      if (char.id === survival.id) {
+        char = survival;
+      }
+
+      return char;
+    });
+
+    if (updatedSelecteds.length > 0) {
+      setSelectedSurvivals(updatedSelecteds);
+    }
+
+    saveGame();
+    setNowPlaying(survival);
+  }
+
   return (
     <SurvivalContext.Provider
       value={{
@@ -73,6 +146,8 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         survivals,
         pushSelectedSurvivals,
         resetSelectedSurvivals,
+        handleSetNowPlaying,
+        handleSetSurvivalXP,
       }}
     >
       {children}

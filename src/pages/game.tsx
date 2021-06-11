@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FiChevronRight, FiChevronLeft, FiPlus, FiMinus } from "react-icons/fi";
 
 import Image from "next/image";
 
@@ -18,6 +19,8 @@ type Survival = {
   name: string;
   text: string;
   defaultSkill: string;
+  userLevel: number;
+  xp: number;
   levels: {
     yellow: SkillOptionsProps;
     orange: SkillOptionsProps;
@@ -26,24 +29,17 @@ type Survival = {
 };
 
 function Game() {
-  const { selectedSurvivals } = useSurvival();
-
-  const [nowPlaying, setNowPlaying] = useState({} as Survival);
+  const {
+    selectedSurvivals,
+    handleSetNowPlaying,
+    nowPlaying,
+    handleSetSurvivalXP,
+  } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
 
-  function handleNextTurn() {
-    if (playerTurn > 0) {
-      setPlayerTurn(playerTurn - 1);
-    }
-  }
-
   useEffect(() => {
-    if (selectedSurvivals.length > 0) {
-      setNowPlaying(selectedSurvivals[0]);
-      localStorage.setItem(
-        "@Zombicide_selectedSurvivals",
-        JSON.stringify(selectedSurvivals)
-      );
+    if (selectedSurvivals.length > 0 && !nowPlaying) {
+      handleSetNowPlaying(selectedSurvivals[0]);
     }
   }, [selectedSurvivals]);
 
@@ -55,10 +51,29 @@ function Game() {
     );
   }
 
+  function handleNextGameTurn(survival: Survival) {
+    handleSetNowPlaying(survival);
+  }
+
+  function handleNextSurvivalTurn() {
+    if (playerTurn > 0) {
+      setPlayerTurn(playerTurn - 1);
+      return;
+    }
+  }
+
+  function increaseSurvivalXP() {
+    handleSetSurvivalXP(nowPlaying, "plus");
+  }
+
+  function decreaseSurvivalXP() {
+    handleSetSurvivalXP(nowPlaying, "minus");
+  }
+
   return (
     <section className={styles.gameContainer}>
       <div className={styles.nowPlayingContainer}>
-        <ProgressBar survivalLevel={43} />
+        <ProgressBar survivalLevel={nowPlaying.xp} />
 
         <div className={styles.survivalMeta}>
           <h2>{nowPlaying?.name}</h2>
@@ -66,6 +81,16 @@ function Game() {
         </div>
 
         <div className={styles.survivalImageContainer}>
+          <div className={styles.controlPannel}>
+            <button className={styles.controllers}>
+              <FiChevronLeft />
+            </button>
+
+            <button className={styles.controllers} onClick={decreaseSurvivalXP}>
+              <FiMinus />
+            </button>
+          </div>
+
           <Image
             width={100}
             height={150}
@@ -73,6 +98,16 @@ function Game() {
             objectFit="cover"
             objectPosition="left"
           />
+
+          <div className={styles.controlPannel}>
+            <button className={styles.controllers}>
+              <FiChevronRight />
+            </button>
+
+            <button className={styles.controllers} onClick={increaseSurvivalXP}>
+              <FiPlus />
+            </button>
+          </div>
         </div>
 
         <div>
@@ -120,13 +155,22 @@ function Game() {
 
       <div className={styles.otherSurvivalContainer}>
         {selectedSurvivals.map(
-          (survival) =>
+          (survival, key) =>
             survival?.id !== nowPlaying?.id && (
-              <div>
-                <p>{survival.name}</p>
+              <button
+                className={styles.survival}
+                key={key}
+                onClick={() => handleNextGameTurn(survival)}
+              >
+                <span>{survival.name}</span>
 
-                <Image width={90} height={60} src={`/f${survival?.id}.webp`} />
-              </div>
+                <Image
+                  width={120}
+                  height={86}
+                  src={`/f${survival?.id}.webp`}
+                  objectFit="cover"
+                />
+              </button>
             )
         )}
       </div>

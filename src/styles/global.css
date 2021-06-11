@@ -21,6 +21,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Raleway', sans-serif;
 }
 
 h1 {
@@ -35,6 +36,10 @@ input {
   color: var(--white);
   font-family: 'Raleway', sans-serif;
   border: none;
+}
+
+button {
+  cursor: pointer;
 }
 
 .container {

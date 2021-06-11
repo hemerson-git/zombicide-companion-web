@@ -28,5 +28,54 @@
 
     margin: 0 auto;
     margin-bottom: 1.5rem;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: var(--primary);
+      font-size: 2rem;
+      line-height: 1rem;
+      border-radius: 1rem;
+      outline: none;
+
+      margin: 1rem;
+      transition: filter .3s;
+
+      &:hover {
+        filter: brightness(1.2);
+      }
+    }
+
+    img {
+      margin: 0 1rem;
+    }
+  }
+}
+
+.otherSurvivalContainer {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 1.5rem;
+
+  .survival {
+    display: flex;
+    align-items: stretch;
+
+    position: relative;
+    margin-right: 1rem;
+    border-radius: .3rem;
+    overflow: hidden;
+
+    span {
+      position: absolute;
+      right: .6rem;
+      top: 50%;
+      font-weight: 600;
+      transform: translateY(-50%);
+      z-index: 100;
+    }
   }
 }
