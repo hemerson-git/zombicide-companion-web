@@ -38,7 +38,7 @@ function Game() {
   const [playerTurn, setPlayerTurn] = useState(3);
 
   useEffect(() => {
-    if (selectedSurvivals.length > 0 && !nowPlaying) {
+    if (selectedSurvivals.length > 0 || !nowPlaying) {
       handleSetNowPlaying(selectedSurvivals[0]);
     }
   }, [selectedSurvivals]);
