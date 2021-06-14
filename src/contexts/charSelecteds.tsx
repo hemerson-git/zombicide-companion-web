@@ -35,7 +35,7 @@ type SurvivalContextProps = {
   pushSelectedSurvivals: (survivals: Survival[]) => void;
   pushGameFlow: (flow: string[]) => void;
   resetSelectedSurvivals: () => void;
-  handleSetNowPlaying: (survival: Survival) => void;
+  handleSetNowPlaying: (survival: Survival, wave?: number) => void;
   handleSetSurvivalXP: (
     survival: Survival,
     operation: "minus" | "plus"
