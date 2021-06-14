@@ -21,7 +21,6 @@ function Survivals() {
 
       <div className={styles.survivalsContainer}>
         {survivals?.map((survival) => {
-          let { name, id, text } = survival;
           return <SurvivalCard key={survival.id} survival={survival} />;
         })}
       </div>

@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 import { characters } from "../../chars";
+import gameFlow from "../util/gameFlow";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -24,10 +25,15 @@ type Survival = {
 
 type SurvivalContextProps = {
   handleAddSurvival: (survival: Survival) => void;
+  wave: number;
   selectedSurvivals: Survival[];
   nowPlaying: Survival;
   survivals: Survival[];
+  nextWave: () => void;
+  prevWave: () => void;
+  startGame: (flow: string[]) => void;
   pushSelectedSurvivals: (survivals: Survival[]) => void;
+  pushGameFlow: (flow: string[]) => void;
   resetSelectedSurvivals: () => void;
   handleSetNowPlaying: (survival: Survival) => void;
   handleSetSurvivalXP: (
@@ -47,6 +53,8 @@ type SurvivalProviderProps = {
 export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   const [nowPlaying, setNowPlaying] = useState({} as Survival);
   const [selectedSurvivals, setSelectedSurvivals] = useState<Survival[]>([]);
+  const [gameLine, setGameLine] = useState<string[]>([]);
+  const [wave, setWave] = useState(0);
 
   const survivals = characters.map((survival) => {
     return {
@@ -65,13 +73,27 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
       "@Zombicide_selectedSurvivals",
       JSON.stringify(selectedSurvivals)
     );
+
+    localStorage.setItem("@Zombicide_GameFlow", JSON.stringify(gameLine));
   }
 
   function loadSurvivalsInfo() {
     const survivals = JSON.parse(
       localStorage.getItem("@Zombicide_selectedSurvivals")
     );
+
     return survivals;
+  }
+
+  function loadGameFlow() {
+    const flow = JSON.parse(localStorage.getItem("@Zombicide_GameFlow"));
+    return flow;
+  }
+
+  function startGame(flow: string[]) {
+    setGameLine(flow);
+    handleSetNowPlaying(null, wave);
+    saveGame();
   }
 
   function handleAddSurvival(survival: Survival) {
@@ -82,21 +104,62 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     setSelectedSurvivals(survivals);
   }
 
+  function pushGameFlow(flow: string[]) {
+    setGameLine(flow);
+  }
+
   function resetSelectedSurvivals() {
     setSelectedSurvivals([]);
     localStorage.removeItem("@Zombicide_selectedSurvivals");
+    localStorage.removeItem("@Zombicide_GameFlow");
   }
 
-  function handleSetNowPlaying(survival: Survival) {
+  function handleSetNowPlaying(survival?: Survival, wave?: number) {
     const survivals = loadSurvivalsInfo();
+    loadGameFlow();
 
-    survivals?.map((char: Survival) => {
-      if (char.id === survivals.id) {
-        survival = char;
-      }
-    });
+    if (survival) {
+      survivals?.map((char: Survival) => {
+        if (char.id === survival.id) {
+          survival = char;
+        }
+      });
+    }
+
+    if (wave >= 0 && gameLine[wave] !== "Zombie") {
+      survivals?.map((char: Survival) => {
+        if (char?.id === gameLine[wave]) {
+          survival = char;
+        }
+      });
+    } else {
+      survival = nowPlaying;
+      alert("Rodada dos Zumbis");
+    }
 
     setNowPlaying(survival);
+    saveGame();
+  }
+
+  function nextWave() {
+    if (wave < gameLine?.length - 1) {
+      setWave(wave + 1);
+      handleSetNowPlaying(null, wave);
+      return;
+    }
+
+    setWave(0);
+    handleSetNowPlaying(null, 0);
+  }
+
+  function prevWave() {
+    if (wave >= 0) {
+      setWave(wave - 1);
+      handleSetNowPlaying(null, wave);
+      return;
+    }
+
+    setWave(gameLine?.length - 1);
   }
 
   function handleSetSurvivalXP(survival: Survival, operation: string) {
@@ -142,11 +205,16 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         handleAddSurvival,
         selectedSurvivals,
         nowPlaying,
+        wave,
         survivals,
         pushSelectedSurvivals,
+        pushGameFlow,
         resetSelectedSurvivals,
         handleSetNowPlaying,
         handleSetSurvivalXP,
+        nextWave,
+        prevWave,
+        startGame,
       }}
     >
       {children}

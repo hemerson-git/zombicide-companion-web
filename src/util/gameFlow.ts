@@ -19,8 +19,8 @@ type Survival = {
 };
 
 function gameFlow(arr: Survival[]) {
-  const newArr = arr.map(({ name }) => {
-    return name;
+  const newArr = arr.map(({ id }) => {
+    return id;
   });
 
   let incomingArr = generateCompletFlow(newArr);

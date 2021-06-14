@@ -35,19 +35,23 @@ function Game() {
     handleSetNowPlaying,
     nowPlaying,
     handleSetSurvivalXP,
+    nextWave,
+    prevWave,
+    startGame,
+    wave,
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
 
   useEffect(() => {
     if (selectedSurvivals.length > 0 || !nowPlaying) {
-      handleSetNowPlaying(selectedSurvivals[0]);
-      const flow = gameFlow(selectedSurvivals);
-
-      console.log("Flow", flow);
+      handleSetNowPlaying(null, wave);
+      const parseSurvivals = gameFlow(selectedSurvivals);
+      startGame(parseSurvivals);
+      console.log(parseSurvivals);
     }
-  }, [selectedSurvivals]);
+  }, [selectedSurvivals, wave]);
 
-  if (selectedSurvivals.length === 0 || !nowPlaying.id) {
+  if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
     return (
       <div className={styles.gameContainer}>
         <h2>Loading</h2>
@@ -86,7 +90,7 @@ function Game() {
 
         <div className={styles.survivalImageContainer}>
           <div className={styles.controlPannel}>
-            <button className={styles.controllers}>
+            <button className={styles.controllers} onClick={prevWave}>
               <FiChevronLeft />
             </button>
 
@@ -104,7 +108,7 @@ function Game() {
           />
 
           <div className={styles.controlPannel}>
-            <button className={styles.controllers}>
+            <button className={styles.controllers} onClick={nextWave}>
               <FiChevronRight />
             </button>
 

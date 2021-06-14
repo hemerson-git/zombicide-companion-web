@@ -5,10 +5,11 @@ import Link from "next/link";
 
 import styles from "./styles.module.scss";
 import { useSurvival } from "../contexts/charSelecteds";
+import gameFlow from "../util/gameFlow";
 
 export default function Home() {
   const [canContinue, setCanContinue] = useState(false);
-  const { pushSelectedSurvivals } = useSurvival();
+  const { pushSelectedSurvivals, pushGameFlow } = useSurvival();
 
   useEffect(() => {
     const survivals = localStorage.getItem("@Zombicide_selectedSurvivals");
@@ -16,6 +17,8 @@ export default function Home() {
     if (survivals) {
       setCanContinue(true);
       pushSelectedSurvivals(JSON.parse(survivals));
+      const parsedFlow = gameFlow(JSON.parse(survivals));
+      pushGameFlow(parsedFlow);
     }
   }, []);
 
