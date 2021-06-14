@@ -7,6 +7,7 @@ import ProgressBar from "../components/Progress";
 
 import styles from "../styles/game.module.scss";
 import { useSurvival } from "../contexts/charSelecteds";
+import gameFlow from "../util/gameFlow";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -40,6 +41,9 @@ function Game() {
   useEffect(() => {
     if (selectedSurvivals.length > 0 || !nowPlaying) {
       handleSetNowPlaying(selectedSurvivals[0]);
+      const flow = gameFlow(selectedSurvivals);
+
+      console.log("Flow", flow);
     }
   }, [selectedSurvivals]);
 
@@ -110,12 +114,12 @@ function Game() {
           </div>
         </div>
 
-        <div>
+        <div className={styles.skillsOptions}>
           <select name="blue" id="blue">
             <option value="1">{nowPlaying.defaultSkill}</option>
           </select>
 
-          <select name="yellow" id="yellow">
+          <select name="yellow" id="yellow" disabled={nowPlaying.xp < 7}>
             {nowPlaying.levels.map((level) => {
               const { yellow } = level;
 
@@ -127,7 +131,7 @@ function Game() {
             })}
           </select>
 
-          <select name="orange" id="orange">
+          <select name="orange" id="orange" disabled={nowPlaying.xp < 19}>
             {nowPlaying.levels.map((level) => {
               const { orange } = level;
 
@@ -139,7 +143,7 @@ function Game() {
             })}
           </select>
 
-          <select name="red" id="red">
+          <select name="red" id="red" disabled={nowPlaying.xp !== 43}>
             {nowPlaying.levels.map((level) => {
               const { red } = level;
 

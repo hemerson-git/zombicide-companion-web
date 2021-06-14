@@ -21,6 +21,26 @@
     }
   }
 
+  .skillsOptions {
+    display: flex;
+    flex-wrap: wrap;
+
+    select {
+      flex: 1;
+      padding: .3rem 1rem;
+      border-radius: .5rem;
+      background-color: var(--semi-transparent);
+
+      &:not(:disabled) {
+        cursor: pointer;
+      }
+
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
+    }
+  }
+
   .survivalImageContainer {
     display: flex;
     align-items: center;

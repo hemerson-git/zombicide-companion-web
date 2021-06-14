@@ -89,7 +89,6 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
   function handleSetNowPlaying(survival: Survival) {
     const survivals = loadSurvivalsInfo();
-    console.log(survivals, survival);
 
     survivals?.map((char: Survival) => {
       if (char.id === survivals.id) {
