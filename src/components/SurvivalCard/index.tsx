@@ -15,6 +15,8 @@ type Survival = {
   name: string;
   text: string;
   defaultSkill: string;
+  xp: number;
+  userLevel: number;
   levels: {
     yellow: SkillOptionsProps;
     orange: SkillOptionsProps;
