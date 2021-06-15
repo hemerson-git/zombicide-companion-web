@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { FaSkull } from "react-icons/fa";
+import { useSurvival } from "../../contexts/charSelecteds";
 
 import styles from "./styles.module.scss";
 
@@ -9,6 +11,7 @@ type ProgressBarProps = {
 function ProgressBar({ survivalLevel }: ProgressBarProps) {
   const [maxLevel, setMaxLevel] = useState(43);
   const [levels, setLevels] = useState<number[]>([0]);
+  const { highestLevel } = useSurvival();
 
   useEffect(() => {
     generateProgressBarArray();
@@ -56,6 +59,12 @@ function ProgressBar({ survivalLevel }: ProgressBarProps) {
             key={level}
           >
             {level}
+
+            {level === highestLevel && (
+              <span>
+                <FaSkull />
+              </span>
+            )}
           </div>
         );
       })}

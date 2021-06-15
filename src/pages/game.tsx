@@ -85,7 +85,7 @@ function Game() {
 
         <div className={styles.survivalMeta}>
           <h2>{nowPlaying?.name}</h2>
-          <span>Proximo Nível em: 3 Pontos</span>
+          {/* <span>Proximo Nível em: 3 Pontos</span> */}
         </div>
 
         <div className={styles.survivalImageContainer}>

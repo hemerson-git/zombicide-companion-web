@@ -26,6 +26,7 @@ type Survival = {
 type SurvivalContextProps = {
   handleAddSurvival: (survival: Survival) => void;
   wave: number;
+  highestLevel: number;
   selectedSurvivals: Survival[];
   nowPlaying: Survival;
   survivals: Survival[];
@@ -55,6 +56,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   const [selectedSurvivals, setSelectedSurvivals] = useState<Survival[]>([]);
   const [gameLine, setGameLine] = useState<string[]>([]);
   const [wave, setWave] = useState(0);
+  const [highestLevel, setHighestLevel] = useState(0);
 
   const survivals = characters.map((survival) => {
     return {
@@ -171,6 +173,9 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
     if (operation === "plus" && survival.xp < 43) {
       newXP = survival.xp + 1;
+      if (newXP > highestLevel) {
+        setHighestLevel(newXP);
+      }
     }
 
     survival = {
@@ -215,6 +220,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         nextWave,
         prevWave,
         startGame,
+        highestLevel,
       }}
     >
       {children}
