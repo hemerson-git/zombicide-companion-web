@@ -1,0 +1,97 @@
+.modal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgba(0, 0, 0, .4);
+  backdrop-filter: blur(10px);
+
+  &.hidden {
+    display: none;
+  }
+
+  .modalHeader {
+    position: relative;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--red);
+      background-color: transparent;
+
+      position: absolute;
+      top: -15px;
+      right: -5px;
+
+      svg {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+    }
+  }
+
+  .modalContent {
+    background-color: var(--semi-transparent);
+    padding: 20px;
+    padding-bottom: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+  }
+
+  .iconContainer {
+    background-color: var(--white);
+    color: var(--red);
+    padding: 1rem;
+    width: fit-content;
+    border-radius: 50%;
+    position: relative;
+    margin-top: -55px;
+
+    .icon {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+
+  .modalFooter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--light-gray);
+
+    button,
+    a {
+      cursor: pointer;
+      padding: .5rem 2rem;
+      border-radius: .5rem;
+      transition: filter .3s;
+
+      &:first-child {
+        margin-right: 1rem;
+      }
+
+      &:hover {
+        filter: brightness(.9);
+      }
+    }
+
+    .btnCancel {
+      background-color: var(--red);
+    }
+
+    .btnContinue {
+      background-color: var(--semi-transparent);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+  }
+}
