@@ -43,12 +43,13 @@ function Game() {
   const [playerTurn, setPlayerTurn] = useState(3);
 
   useEffect(() => {
-    if (selectedSurvivals.length > 0 || !nowPlaying) {
-      handleSetNowPlaying(null, wave);
+    console.log(nowPlaying);
+    if (!nowPlaying?.id) {
       const parseSurvivals = gameFlow(selectedSurvivals);
       startGame(parseSurvivals);
+      return;
     }
-  }, [selectedSurvivals]);
+  }, [nowPlaying]);
 
   if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
     return (

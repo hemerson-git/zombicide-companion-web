@@ -93,6 +93,8 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   }
 
   function startGame(flow: string[]) {
+    setNowPlaying(selectedSurvivals[0]);
+    console.log("NowPlaying: ", nowPlaying);
     setGameLine(flow);
     handleSetNowPlaying(null, wave);
     saveGame();
