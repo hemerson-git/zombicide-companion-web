@@ -47,9 +47,8 @@ function Game() {
       handleSetNowPlaying(null, wave);
       const parseSurvivals = gameFlow(selectedSurvivals);
       startGame(parseSurvivals);
-      console.log(parseSurvivals);
     }
-  }, [selectedSurvivals, wave]);
+  }, [selectedSurvivals]);
 
   if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
     return (

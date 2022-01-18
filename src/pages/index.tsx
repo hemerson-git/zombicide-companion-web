@@ -18,6 +18,7 @@ export default function Home() {
 
   useEffect(() => {
     const survivals = localStorage.getItem("@Zombicide_selectedSurvivals");
+    const gameLevel = localStorage.getItem("@Zombicide_gameLevel");
 
     if (survivals) {
       setCanContinue(true);

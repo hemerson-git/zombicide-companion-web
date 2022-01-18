@@ -29,22 +29,16 @@ function gameFlow(arr: Survival[]) {
 }
 
 function generateCompletFlow(arr: string[]) {
-  let completeFlowArr = [...arr, "Zombie"];
+  let completeFlowArr = [];
 
-  // Move the first item to the end of the line
-
-  function getNewOrder(lastArr: string[]) {
-    let tempArr = [...lastArr];
-    const firstItem = tempArr.shift();
-    tempArr.push(firstItem);
-
-    if (arr[0] !== tempArr[0]) {
-      completeFlowArr = [...completeFlowArr, ...tempArr, "Zombie"];
-      getNewOrder(tempArr);
-    }
-  }
-
-  getNewOrder(arr);
+  arr.map((value, index, arrCopy) => {
+    // Get The Last part of the Array
+    // The part after the value
+    const endArr = arrCopy.slice(index, arrCopy.length);
+    const startArr = arrCopy.slice(0, index);
+    const concArr = [...endArr, ...startArr, "Zombie"];
+    completeFlowArr = [...completeFlowArr, ...concArr];
+  });
 
   return completeFlowArr;
 }
