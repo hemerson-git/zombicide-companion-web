@@ -41,6 +41,7 @@ function Game() {
     startGame,
     isZombieTurn,
     handleHideZombie,
+    wave,
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
   const ZOMBIE_AUTO_HIDE_TIME = 10000; // Time in milliseconds
@@ -58,6 +59,33 @@ function Game() {
       handleZombieTurn();
     }
   }, [isZombieTurn]);
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyboardPress);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyboardPress);
+    };
+  }, [wave, nowPlaying]);
+
+  function handleKeyboardPress(event: KeyboardEvent) {
+    const eventCode = event.code;
+    executeAction(eventCode);
+  }
+
+  function executeAction(code: string) {
+    const action = {
+      ArrowLeft: () => prevWave(),
+      ArrowRight: () => nextWave(),
+      ArrowUp: () => increaseSurvivalXP(),
+      ArrowDown: () => decreaseSurvivalXP(),
+    };
+
+    if (typeof action[code] === "function") {
+      console.log("It's a function");
+      action[code]();
+    }
+  }
 
   function handleNextGameTurn(survival: Survival) {
     handleSetNowPlaying();
