@@ -1,0 +1,21 @@
+.zombieCard {
+  max-width: 100%;
+
+  h2 {
+    font-size: 2em;
+    text-align: center;
+    text-shadow: 0px 0px 3px var(--primary),
+      0px 0px 6px var(--primary),
+      0px 0px 12px var(--primary),
+      0px 0px 24px var(--primary);
+    color: var(--white);
+  }
+
+  img {
+    border-radius: .4rem;
+  }
+
+  iframe {
+    border: none;
+  }
+}

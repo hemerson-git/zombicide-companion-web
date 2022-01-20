@@ -8,6 +8,7 @@ import ProgressBar from "../components/Progress";
 import styles from "../styles/game.module.scss";
 import { useSurvival } from "../contexts/charSelecteds";
 import gameFlow from "../util/gameFlow";
+import ZombieCard from "../components/ZombieCard";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -38,8 +39,11 @@ function Game() {
     nextWave,
     prevWave,
     startGame,
+    isZombieTurn,
+    handleHideZombie,
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
+  const ZOMBIE_AUTO_HIDE_TIME = 10000; // Time in milliseconds
 
   useEffect(() => {
     if (!nowPlaying?.id) {
@@ -49,13 +53,11 @@ function Game() {
     }
   }, [nowPlaying]);
 
-  if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
-    return (
-      <div className={styles.gameContainer}>
-        <h2>Loading</h2>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (isZombieTurn) {
+      handleZombieTurn();
+    }
+  }, [isZombieTurn]);
 
   function handleNextGameTurn(survival: Survival) {
     handleSetNowPlaying();
@@ -74,6 +76,20 @@ function Game() {
 
   function decreaseSurvivalXP() {
     handleSetSurvivalXP(nowPlaying, "minus");
+  }
+
+  function handleZombieTurn() {
+    setTimeout(() => {
+      handleHideZombie();
+    }, ZOMBIE_AUTO_HIDE_TIME);
+  }
+
+  if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
+    return (
+      <div className={styles.gameContainer}>
+        <h2>Loading</h2>
+      </div>
+    );
   }
 
   return (
@@ -96,6 +112,12 @@ function Game() {
               <FiMinus />
             </button>
           </div>
+
+          {isZombieTurn && (
+            <div className={styles.zombieContainer}>
+              <ZombieCard />
+            </div>
+          )}
 
           <Image
             width={100}

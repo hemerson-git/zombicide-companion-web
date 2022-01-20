@@ -26,13 +26,16 @@ type Survival = {
 type SurvivalContextProps = {
   handleAddSurvival: (survival: Survival) => void;
   wave: number;
+  isZombieTurn: boolean;
   highestLevel: number;
   selectedSurvivals: Survival[];
   nowPlaying: Survival;
   survivals: Survival[];
+  handleHideZombie: () => void;
   nextWave: () => void;
   prevWave: () => void;
   startGame: (flow: string[]) => void;
+  loadGame: () => void;
   pushSelectedSurvivals: (survivals: Survival[]) => void;
   pushGameFlow: (flow: string[]) => void;
   resetSelectedSurvivals: () => void;
@@ -57,6 +60,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   const [gameLine, setGameLine] = useState<string[]>([]);
   const [wave, setWave] = useState(0);
   const [highestLevel, setHighestLevel] = useState(0);
+  const [isZombieTurn, setIsZombieTurn] = useState(false);
 
   const survivals = characters.map((survival) => {
     return {
@@ -99,8 +103,17 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     saveGame();
   }
 
+  function loadGame() {
+    const storagedFlow = loadGameFlow();
+    const selectedSurvivals = loadSurvivalsInfo();
+  }
+
   function handleAddSurvival(survival: Survival) {
     setSelectedSurvivals([...selectedSurvivals, survival]);
+  }
+
+  function handleHideZombie() {
+    setIsZombieTurn(false);
   }
 
   function pushSelectedSurvivals(survivals: Survival[]) {
@@ -125,13 +138,14 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     }
 
     if (wave >= 0 && gameLine[wave] !== "Zombie") {
+      setIsZombieTurn(false);
       selectedSurvivals.map((char) => {
         if (char.id === gameLine[wave]) {
           setNowPlaying(char);
         }
       });
     } else {
-      alert("Rodada dos Zumbis");
+      setIsZombieTurn(true);
     }
 
     saveGame();
@@ -150,8 +164,8 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
   function prevWave() {
     if (wave >= 0) {
+      handleSetNowPlaying(wave);
       setWave(wave - 1);
-      handleSetNowPlaying(null, wave);
       return;
     }
 
@@ -206,6 +220,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         nowPlaying,
         wave,
         survivals,
+        isZombieTurn,
         pushSelectedSurvivals,
         pushGameFlow,
         resetSelectedSurvivals,
@@ -214,7 +229,9 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         nextWave,
         prevWave,
         startGame,
+        loadGame,
         highestLevel,
+        handleHideZombie,
       }}
     >
       {children}

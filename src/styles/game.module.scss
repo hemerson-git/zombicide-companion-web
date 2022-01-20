@@ -72,6 +72,17 @@
       margin: 0 1rem;
     }
   }
+
+  .zombieContainer {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 101;
+  }
 }
 
 .otherSurvivalContainer {
