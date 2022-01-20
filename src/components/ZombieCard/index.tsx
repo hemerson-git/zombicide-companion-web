@@ -26,6 +26,8 @@ function ZombieCard(params: IZombieCard) {
         height={300}
       ></iframe>
 
+      <audio src="/zombie_effect.mp3" autoPlay muted={false}></audio>
+
       <h2>Turno dos Zumbis!</h2>
     </div>
   );

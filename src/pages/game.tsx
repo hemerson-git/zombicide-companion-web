@@ -9,6 +9,7 @@ import styles from "../styles/game.module.scss";
 import { useSurvival } from "../contexts/charSelecteds";
 import gameFlow from "../util/gameFlow";
 import ZombieCard from "../components/ZombieCard";
+import ShowSurvival from "../components/ShowSurvival";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -33,7 +34,6 @@ type Survival = {
 function Game() {
   const {
     selectedSurvivals,
-    handleSetNowPlaying,
     nowPlaying,
     handleSetSurvivalXP,
     nextWave,
@@ -45,6 +45,10 @@ function Game() {
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
   const ZOMBIE_AUTO_HIDE_TIME = 10000; // Time in milliseconds
+  const [showSurvivalInfo, setShowSurvivalInfo] = useState(false);
+  const [showingSurvival, setShowingSurvival] = useState<
+    Survival | undefined
+  >();
 
   useEffect(() => {
     if (!nowPlaying?.id) {
@@ -87,16 +91,7 @@ function Game() {
     }
   }
 
-  function handleNextGameTurn(survival: Survival) {
-    handleSetNowPlaying();
-  }
-
-  function handleNextSurvivalTurn() {
-    if (playerTurn > 0) {
-      setPlayerTurn(playerTurn - 1);
-      return;
-    }
-  }
+  function handleShowSurvival(survival: Survival) {}
 
   function increaseSurvivalXP() {
     handleSetSurvivalXP(nowPlaying, "plus");
@@ -110,6 +105,15 @@ function Game() {
     setTimeout(() => {
       handleHideZombie();
     }, ZOMBIE_AUTO_HIDE_TIME);
+  }
+
+  function handleCloseSurvivalModal() {
+    setShowSurvivalInfo(false);
+  }
+
+  function handleShowSurvivalModal(survival: Survival) {
+    setShowingSurvival(survival);
+    setShowSurvivalInfo(true);
   }
 
   if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
@@ -216,7 +220,7 @@ function Game() {
               <button
                 className={styles.survival}
                 key={key}
-                onClick={() => handleNextGameTurn(survival)}
+                onClick={() => handleShowSurvivalModal(survival)}
               >
                 <span>{survival.name}</span>
 
@@ -230,6 +234,13 @@ function Game() {
             )
         )}
       </div>
+
+      {showSurvivalInfo && (
+        <ShowSurvival
+          survival={showingSurvival}
+          closeModal={handleCloseSurvivalModal}
+        />
+      )}
     </section>
   );
 }

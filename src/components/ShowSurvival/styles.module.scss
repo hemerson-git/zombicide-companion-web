@@ -1,0 +1,47 @@
+.showSurvivalContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  top: 20px;
+  bottom: 20px;
+  z-index: 300;
+
+  backdrop-filter: blur(12px);
+  background-color: var(--semi-transparent);
+  margin: 20px;
+  border-radius: 1rem;
+
+  .btnCloseModal {
+    color: var(--red);
+    background-color: transparent;
+    font-size: 2.5rem;
+    position: absolute;
+    right: 40px;
+    top: 30px;
+    z-index: 2;
+    outline: none;
+  }
+
+  img {
+    border-radius: .4rem;
+  }
+
+  .progressContainer {
+    min-width: 900px;
+  }
+
+  .survivalName {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
+  p {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+}
