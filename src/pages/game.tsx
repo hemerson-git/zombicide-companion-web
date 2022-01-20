@@ -38,12 +38,10 @@ function Game() {
     nextWave,
     prevWave,
     startGame,
-    wave,
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
 
   useEffect(() => {
-    console.log(nowPlaying);
     if (!nowPlaying?.id) {
       const parseSurvivals = gameFlow(selectedSurvivals);
       startGame(parseSurvivals);
@@ -60,7 +58,7 @@ function Game() {
   }
 
   function handleNextGameTurn(survival: Survival) {
-    handleSetNowPlaying(survival);
+    handleSetNowPlaying();
   }
 
   function handleNextSurvivalTurn() {

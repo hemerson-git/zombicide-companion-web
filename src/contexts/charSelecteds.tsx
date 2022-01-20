@@ -36,7 +36,7 @@ type SurvivalContextProps = {
   pushSelectedSurvivals: (survivals: Survival[]) => void;
   pushGameFlow: (flow: string[]) => void;
   resetSelectedSurvivals: () => void;
-  handleSetNowPlaying: (survival: Survival, wave?: number) => void;
+  handleSetNowPlaying: (wave?: number) => void;
   handleSetSurvivalXP: (
     survival: Survival,
     operation: "minus" | "plus"
@@ -93,10 +93,9 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   }
 
   function startGame(flow: string[]) {
-    setNowPlaying(selectedSurvivals[0]);
-    console.log("NowPlaying: ", nowPlaying);
     setGameLine(flow);
-    handleSetNowPlaying(null, wave);
+    setNowPlaying(selectedSurvivals[0]);
+    setWave(0);
     saveGame();
   }
 
@@ -118,42 +117,35 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     localStorage.removeItem("@Zombicide_GameFlow");
   }
 
-  function handleSetNowPlaying(survival?: Survival, wave?: number) {
-    const survivals = loadSurvivalsInfo();
+  function handleSetNowPlaying(wave?: number) {
     loadGameFlow();
 
-    if (survival) {
-      survivals?.map((char: Survival) => {
-        if (char.id === survival.id) {
-          survival = char;
-        }
-      });
+    if (gameLine[wave] !== "Zombie") {
+      selectedSurvivals[wave];
     }
 
     if (wave >= 0 && gameLine[wave] !== "Zombie") {
-      survivals?.map((char: Survival) => {
-        if (char?.id === gameLine[wave]) {
-          survival = char;
+      selectedSurvivals.map((char) => {
+        if (char.id === gameLine[wave]) {
+          setNowPlaying(char);
         }
       });
     } else {
-      survival = nowPlaying;
       alert("Rodada dos Zumbis");
     }
 
-    setNowPlaying(survival);
     saveGame();
   }
 
   function nextWave() {
-    if (wave < gameLine?.length - 1) {
+    if (wave <= gameLine?.length - 1) {
+      handleSetNowPlaying(wave);
       setWave(wave + 1);
-      handleSetNowPlaying(null, wave);
       return;
     }
 
     setWave(0);
-    handleSetNowPlaying(null, 0);
+    handleSetNowPlaying(0);
   }
 
   function prevWave() {
