@@ -60,7 +60,7 @@ function ProgressBar({ survivalLevel }: ProgressBarProps) {
           >
             {level}
 
-            {level === highestLevel && (
+            {level === highestLevel.level && (
               <span>
                 <FaSkull />
               </span>

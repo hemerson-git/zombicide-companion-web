@@ -70,11 +70,14 @@ function Game() {
     return () => {
       document.removeEventListener("keydown", handleKeyboardPress);
     };
-  }, [wave, nowPlaying]);
+  }, [wave, nowPlaying, showSurvivalInfo]);
 
   function handleKeyboardPress(event: KeyboardEvent) {
     const eventCode = event.code;
-    executeAction(eventCode);
+
+    if (!showSurvivalInfo) {
+      executeAction(eventCode);
+    }
   }
 
   function executeAction(code: string) {
@@ -90,8 +93,6 @@ function Game() {
       action[code]();
     }
   }
-
-  function handleShowSurvival(survival: Survival) {}
 
   function increaseSurvivalXP() {
     handleSetSurvivalXP(nowPlaying, "plus");

@@ -1,9 +1,10 @@
-import { FiX } from "react-icons/fi";
+import { FiX, FiPlus, FiMinus } from "react-icons/fi";
 import Image from "next/image";
 
 import styles from "./styles.module.scss";
 import ProgressBar from "../Progress";
 import { useEffect } from "react";
+import { useSurvival } from "../../contexts/charSelecteds";
 
 interface SkillOptionsProps {
   "skill-options": {
@@ -32,6 +33,7 @@ interface IShowSurvival {
 
 function ShowSurvival(params: IShowSurvival) {
   const { survival, closeModal } = params;
+  const { handleSetSurvivalXP } = useSurvival();
 
   useEffect(() => {
     document.addEventListener("keydown", handleCloseModal);
@@ -47,6 +49,16 @@ function ShowSurvival(params: IShowSurvival) {
     if (code === "Escape") {
       closeModal();
     }
+  }
+
+  // search for what is causing the change of all survivals at once
+
+  function increaseSurvivalXP() {
+    // handleSetSurvivalXP(survival, "plus");
+  }
+
+  function decreaseSurvivalXP() {
+    // handleSetSurvivalXP(survival, "minus");
   }
 
   if (!survival) {
@@ -65,7 +77,17 @@ function ShowSurvival(params: IShowSurvival) {
         <FiX />
       </button>
 
-      <Image src={`/f${survival?.id}.webp`} width={250} height={250} />
+      <div className="survivalContainer">
+        <button className={styles.btnXp} onClick={decreaseSurvivalXP}>
+          <FiMinus />
+        </button>
+
+        <Image src={`/f${survival?.id}.webp`} width={250} height={250} />
+
+        <button className={styles.btnXp} onClick={increaseSurvivalXP}>
+          <FiPlus />
+        </button>
+      </div>
 
       <p>{survival?.text}</p>
     </div>

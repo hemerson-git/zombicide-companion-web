@@ -27,7 +27,10 @@ type SurvivalContextProps = {
   handleAddSurvival: (survival: Survival) => void;
   wave: number;
   isZombieTurn: boolean;
-  highestLevel: number;
+  highestLevel: {
+    level: number;
+    survival: string;
+  };
   selectedSurvivals: Survival[];
   nowPlaying: Survival;
   survivals: Survival[];
@@ -59,7 +62,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   const [selectedSurvivals, setSelectedSurvivals] = useState<Survival[]>([]);
   const [gameLine, setGameLine] = useState<string[]>([]);
   const [wave, setWave] = useState(0);
-  const [highestLevel, setHighestLevel] = useState(0);
+  const [highestLevel, setHighestLevel] = useState({ level: 0, survival: "" });
   const [isZombieTurn, setIsZombieTurn] = useState(false);
 
   const survivals = characters.map((survival) => {
@@ -177,12 +180,28 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
     if (operation === "minus" && survival.xp > 0) {
       newXP = survival.xp - 1;
+      let highestXp = 0;
+
+      selectedSurvivals?.map((survival) => {
+        if (survival.xp > highestXp) {
+          highestXp = survival.xp;
+          highestLevel.survival = survival.id;
+        }
+      });
+
+      setHighestLevel({
+        level: survival.id !== highestLevel.survival ? highestXp : newXP,
+        survival: survival.id,
+      });
     }
 
     if (operation === "plus" && survival.xp < 43) {
       newXP = survival.xp + 1;
-      if (newXP > highestLevel) {
-        setHighestLevel(newXP);
+      if (newXP > highestLevel.level) {
+        setHighestLevel({
+          level: newXP,
+          survival: survival.id,
+        });
       }
     }
 
