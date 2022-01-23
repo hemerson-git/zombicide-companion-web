@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import { characters } from "../../chars";
 
@@ -20,6 +26,7 @@ type Survival = {
     orange: SkillOptionsProps;
     red: SkillOptionsProps;
   }[];
+  selectedLevels?: string[];
 };
 
 type SurvivalContextProps = {
@@ -46,6 +53,7 @@ type SurvivalContextProps = {
     survival: Survival,
     operation: "minus" | "plus"
   ) => void;
+  saveGame: () => void;
 };
 
 const SurvivalContext = createContext({} as SurvivalContextProps);
@@ -73,8 +81,13 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
       levels: survival.levels,
       userLevel: 0,
       xp: 0,
+      selectedLevels: [],
     };
   });
+
+  useEffect(() => {
+    handleSetNowPlaying(wave);
+  }, [wave]);
 
   function saveGame() {
     localStorage.setItem(
@@ -119,8 +132,8 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     if (storagedFlow && selectedSurvivals) {
       setSelectedSurvivals(loadedSelectedSurvivals);
       setGameLine(storagedFlow);
-      handleSetNowPlaying(loadedWave);
       setWave(loadedWave);
+      handleSetNowPlaying(loadedWave);
     }
   }
 
@@ -147,8 +160,6 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
   }
 
   function handleSetNowPlaying(wave?: number) {
-    loadGameFlow();
-
     if (gameLine[wave] !== "Zombie") {
       selectedSurvivals[wave];
     }
@@ -169,8 +180,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
   function nextWave() {
     if (wave <= gameLine?.length - 1) {
-      handleSetNowPlaying(wave);
-      setWave(wave + 1);
+      setWave((prev) => prev + 1);
       return;
     }
 
@@ -226,6 +236,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
       levels: nowPlaying.levels,
       userLevel: 0,
       xp: newXP,
+      selectedLevels: nowPlaying.selectedLevels,
     };
 
     const updatedSelecteds = selectedSurvivals?.map((char) => {
@@ -264,6 +275,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
         loadGame,
         highestLevel,
         handleHideZombie,
+        saveGame,
       }}
     >
       {children}

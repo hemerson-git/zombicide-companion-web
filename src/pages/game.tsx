@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import {
   FiChevronRight,
   FiChevronLeft,
@@ -17,6 +17,7 @@ import { useSurvival } from "../contexts/charSelecteds";
 import gameFlow from "../util/gameFlow";
 import ZombieCard from "../components/ZombieCard";
 import ShowSurvival from "../components/ShowSurvival";
+import router from "next/router";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -36,6 +37,7 @@ type Survival = {
     orange: SkillOptionsProps;
     red: SkillOptionsProps;
   }[];
+  selectedLevels?: string[];
 };
 
 function Game() {
@@ -49,8 +51,8 @@ function Game() {
     isZombieTurn,
     handleHideZombie,
     wave,
+    saveGame,
   } = useSurvival();
-  const [playerTurn, setPlayerTurn] = useState(3);
   const ZOMBIE_AUTO_HIDE_TIME = 6000; // Time in milliseconds
   const [showSurvivalInfo, setShowSurvivalInfo] = useState(false);
   const [showingSurvival, setShowingSurvival] = useState<
@@ -66,7 +68,7 @@ function Game() {
   }, [nowPlaying]);
 
   useEffect(() => {
-    if (isZombieTurn) {
+    if (isZombieTurn && gameFlow.length > 0) {
       handleZombieTurn();
     }
   }, [isZombieTurn]);
@@ -122,6 +124,12 @@ function Game() {
   function handleShowSurvivalModal(survival: Survival) {
     setShowingSurvival(survival);
     setShowSurvivalInfo(true);
+  }
+
+  function handleGoHome(event: MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    saveGame();
+    router.push("/");
   }
 
   if (selectedSurvivals.length === 0 || !nowPlaying?.id) {
@@ -183,36 +191,60 @@ function Game() {
             <option value="1">{nowPlaying.defaultSkill}</option>
           </select>
 
-          <select name="yellow" id="yellow" disabled={nowPlaying.xp < 7}>
+          <select
+            name="yellow"
+            id="yellow"
+            disabled={nowPlaying.xp < 7}
+            onChange={(event) => {
+              nowPlaying.selectedLevels[0] = event?.currentTarget?.value;
+            }}
+            value={nowPlaying.selectedLevels[0]}
+          >
             {nowPlaying.levels.map((level) => {
               const { yellow } = level;
 
               return yellow["skill-options"].map(({ skill }, index) => (
-                <option value={index} key={index}>
+                <option value={skill} key={index}>
                   {skill}
                 </option>
               ));
             })}
           </select>
 
-          <select name="orange" id="orange" disabled={nowPlaying.xp < 19}>
+          <select
+            name="orange"
+            id="orange"
+            disabled={nowPlaying.xp < 19}
+            onChange={(event) => {
+              nowPlaying.selectedLevels[1] = event?.currentTarget?.value;
+            }}
+            value={nowPlaying.selectedLevels[1]}
+          >
             {nowPlaying.levels.map((level) => {
               const { orange } = level;
 
               return orange["skill-options"].map(({ skill }, index) => (
-                <option value={index} key={index}>
+                <option value={skill} key={index}>
                   {skill}
                 </option>
               ));
             })}
           </select>
 
-          <select name="red" id="red" disabled={nowPlaying.xp !== 43}>
+          <select
+            name="red"
+            id="red"
+            disabled={nowPlaying.xp !== 43}
+            onChange={(event) => {
+              nowPlaying.selectedLevels[2] = event?.currentTarget?.value;
+            }}
+            value={nowPlaying.selectedLevels[2]}
+          >
             {nowPlaying.levels.map((level) => {
               const { red } = level;
 
               return red["skill-options"].map(({ skill }, index) => (
-                <option value={index} key={index}>
+                <option value={skill} key={index}>
                   {skill}
                 </option>
               ));
@@ -244,12 +276,10 @@ function Game() {
       </div>
 
       <div className={styles.footer}>
-        <Link href="/" prefetch>
-          <a className={styles.btnBackHome}>
-            <FiHome />
-            Página inicial
-          </a>
-        </Link>
+        <button className={styles.btnBackHome} onClick={handleGoHome}>
+          <FiHome />
+          Página inicial
+        </button>
       </div>
 
       {showSurvivalInfo && (
