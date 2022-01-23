@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
-import { FiChevronRight, FiChevronLeft, FiPlus, FiMinus } from "react-icons/fi";
+import {
+  FiChevronRight,
+  FiChevronLeft,
+  FiPlus,
+  FiMinus,
+  FiHome,
+} from "react-icons/fi";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import ProgressBar from "../components/Progress";
 
@@ -44,7 +51,7 @@ function Game() {
     wave,
   } = useSurvival();
   const [playerTurn, setPlayerTurn] = useState(3);
-  const ZOMBIE_AUTO_HIDE_TIME = 10000; // Time in milliseconds
+  const ZOMBIE_AUTO_HIDE_TIME = 6000; // Time in milliseconds
   const [showSurvivalInfo, setShowSurvivalInfo] = useState(false);
   const [showingSurvival, setShowingSurvival] = useState<
     Survival | undefined
@@ -234,6 +241,15 @@ function Game() {
               </button>
             )
         )}
+      </div>
+
+      <div className={styles.footer}>
+        <Link href="/" prefetch>
+          <a className={styles.btnBackHome}>
+            <FiHome />
+            Página inicial
+          </a>
+        </Link>
       </div>
 
       {showSurvivalInfo && (

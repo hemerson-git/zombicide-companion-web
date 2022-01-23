@@ -1,7 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 import { characters } from "../../chars";
-import gameFlow from "../util/gameFlow";
 
 type SkillOptionsProps = {
   "skill-options": {
@@ -84,6 +83,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     );
 
     localStorage.setItem("@Zombicide_GameFlow", JSON.stringify(gameLine));
+    localStorage.setItem("@Zombicide_Wave", JSON.stringify(wave));
   }
 
   function loadSurvivalsInfo() {
@@ -99,6 +99,11 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     return flow;
   }
 
+  function loadWave() {
+    const loadedWave = JSON.parse(localStorage.getItem("@Zombicide_Wave"));
+    return loadedWave;
+  }
+
   function startGame(flow: string[]) {
     setGameLine(flow);
     setNowPlaying(selectedSurvivals[0]);
@@ -108,7 +113,15 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
 
   function loadGame() {
     const storagedFlow = loadGameFlow();
-    const selectedSurvivals = loadSurvivalsInfo();
+    const loadedSelectedSurvivals = loadSurvivalsInfo();
+    const loadedWave = loadWave();
+
+    if (storagedFlow && selectedSurvivals) {
+      setSelectedSurvivals(loadedSelectedSurvivals);
+      setGameLine(storagedFlow);
+      handleSetNowPlaying(loadedWave);
+      setWave(loadedWave);
+    }
   }
 
   function handleAddSurvival(survival: Survival) {

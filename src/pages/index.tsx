@@ -1,7 +1,6 @@
 import { MouseEvent, useEffect, useState } from "react";
 
 import Head from "next/head";
-import Link from "next/link";
 import { useRouter } from "next/router";
 
 import styles from "./styles.module.scss";
@@ -10,7 +9,7 @@ import gameFlow from "../util/gameFlow";
 import NewgameAlert from "../components/NewgameAlert";
 
 export default function Home() {
-  const { pushSelectedSurvivals, pushGameFlow } = useSurvival();
+  const { pushSelectedSurvivals, pushGameFlow, loadGame } = useSurvival();
   const [canContinue, setCanContinue] = useState(false);
   const [visible, setVisible] = useState(false);
 
@@ -39,6 +38,12 @@ export default function Home() {
     setVisible(true);
   }
 
+  function handleLoadGame(event: MouseEvent) {
+    event.preventDefault();
+    loadGame();
+    router.push("/game");
+  }
+
   return (
     <div className={styles.homepage}>
       <Head>
@@ -48,11 +53,9 @@ export default function Home() {
       <section className={styles.popupContainer}>
         <h1>Main Menu</h1>
 
-        <Link href="/game">
-          <button type="button" disabled={!canContinue}>
-            Continuar
-          </button>
-        </Link>
+        <button type="button" disabled={!canContinue} onClick={handleLoadGame}>
+          Continuar
+        </button>
 
         <button onClick={handleNewGame} className={styles.btnGameStart}>
           Iniciar Jogo

@@ -83,30 +83,55 @@
     justify-content: center;
     z-index: 101;
   }
-}
 
-.otherSurvivalContainer {
-  display: flex;
-  justify-content: center;
-
-  margin-top: 1.5rem;
-
-  .survival {
+  .otherSurvivalContainer {
     display: flex;
-    align-items: stretch;
+    justify-content: center;
 
-    position: relative;
-    margin-right: 1rem;
-    border-radius: .3rem;
-    overflow: hidden;
+    margin-top: 1.5rem;
 
-    span {
-      position: absolute;
-      right: .6rem;
-      top: 50%;
-      font-weight: 600;
-      transform: translateY(-50%);
-      z-index: 100;
+    .survival {
+      display: flex;
+      align-items: stretch;
+
+      position: relative;
+      margin-right: 1rem;
+      border-radius: .3rem;
+      overflow: hidden;
+
+      span {
+        position: absolute;
+        right: .6rem;
+        top: 50%;
+        font-weight: 600;
+        transform: translateY(-50%);
+        z-index: 100;
+      }
+    }
+  }
+
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+
+    .btnBackHome {
+      color: var(--primary);
+      background-color: var(--white);
+      border-radius: 8px;
+      padding: 8px 16px;
+      border: 1px solid var(--primary);
+      transition: all .3s linear;
+
+      &:hover {
+        color: var(--white);
+        background-color: var(--primary);
+        transform: scale(1.1);
+      }
+
+      svg {
+        margin-right: 8px;
+      }
     }
   }
 }
