@@ -1,12 +1,12 @@
-# Zombicide Companion - Web - Unofficial
+# Zombicide Companion - Web - Unofficial 🧟
 
 That's a fan-made version of zombicide companion for mobile devices - _if you want the game_, go to [Zombicide Official Site](https://www.zombicide.com)
 
-## Preview
+## Preview 👁
 
 <img width="50%" src="/.github/preview.gif">
 
-## Getting Started
+## Getting Started 🏁
 
 First, you will need to download the project:
 
@@ -16,7 +16,7 @@ First, you will need to download the project:
 - [Node](https://nodejs.org/en/download/)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/) (You can also use NPM)
 
-### Download
+### Download ⬇
 
 #### First Option
 
@@ -31,7 +31,7 @@ First, you will need to download the project:
     https://github.com/hemerson-git/zombicide-companion-web.git
   ```
 
-### Executing
+### Running 🏃
 
 Open the terminal inside the project folder, then run the following command
 
