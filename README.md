@@ -2,6 +2,10 @@
 
 That's a fan-made version of zombicide companion for mobile devices - _if you want the game_, go to [Zombicide Official Site](https://www.zombicide.com)
 
+## Preview
+
+<img width="50%" src="/.github/preview.gif">
+
 ## Getting Started
 
 First, you will need to download the project:
