@@ -52,7 +52,7 @@ function Game() {
     wave,
     saveGame,
   } = useSurvival();
-  const ZOMBIE_AUTO_HIDE_TIME = 6000; // Time in milliseconds
+  const ZOMBIE_AUTO_HIDE_TIME = 10000; // Time in milliseconds
   const [showSurvivalInfo, setShowSurvivalInfo] = useState(false);
   const [showingSurvival, setShowingSurvival] = useState<
     Survival | undefined
