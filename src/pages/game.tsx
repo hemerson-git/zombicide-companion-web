@@ -8,7 +8,6 @@ import {
 } from "react-icons/fi";
 
 import Image from "next/image";
-import Link from "next/link";
 
 import ProgressBar from "../components/Progress";
 

@@ -157,6 +157,7 @@ export function SurvivalSelectProvider({ children }: SurvivalProviderProps) {
     setSelectedSurvivals([]);
     localStorage.removeItem("@Zombicide_selectedSurvivals");
     localStorage.removeItem("@Zombicide_GameFlow");
+    localStorage.removeItem("@Zombicide_Wave");
   }
 
   function handleSetNowPlaying(wave?: number) {
