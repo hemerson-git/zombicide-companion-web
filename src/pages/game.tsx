@@ -144,149 +144,157 @@ function Game() {
       <div className={styles.nowPlayingContainer}>
         <ProgressBar survivalLevel={nowPlaying.xp} />
 
-        <div className={styles.survivalMeta}>
-          <h2>{nowPlaying?.name}</h2>
-          {/* <span>Proximo Nível em: 3 Pontos</span> */}
-        </div>
-
-        <div className={styles.survivalImageContainer}>
-          <div className={styles.controlPannel}>
-            <button className={styles.controllers} onClick={prevWave}>
-              <FiChevronLeft />
-            </button>
-
-            <button className={styles.controllers} onClick={decreaseSurvivalXP}>
-              <FiMinus />
-            </button>
+        <div>
+          <div className={styles.survivalMeta}>
+            <h2>{nowPlaying?.name}</h2>
+            {/* <span>Proximo Nível em: 3 Pontos</span> */}
           </div>
 
-          {isZombieTurn && (
-            <div className={styles.zombieContainer}>
-              <ZombieCard />
-            </div>
-          )}
-
-          <Image
-            width={100}
-            height={150}
-            src={`/f${nowPlaying?.id}.webp`}
-            objectFit="cover"
-            objectPosition="left"
-          />
-
-          <div className={styles.controlPannel}>
-            <button className={styles.controllers} onClick={nextWave}>
-              <FiChevronRight />
-            </button>
-
-            <button className={styles.controllers} onClick={increaseSurvivalXP}>
-              <FiPlus />
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.skillsOptions}>
-          <select name="blue" id="blue">
-            <option value="1">{nowPlaying.defaultSkill}</option>
-          </select>
-
-          <select
-            name="yellow"
-            id="yellow"
-            disabled={nowPlaying.xp < 7}
-            onChange={(event) => {
-              nowPlaying.selectedLevels[0] = event?.currentTarget?.value;
-            }}
-            value={nowPlaying.selectedLevels[0]}
-          >
-            {nowPlaying.levels.map((level) => {
-              const { yellow } = level;
-
-              return yellow["skill-options"].map(({ skill }, index) => (
-                <option value={skill} key={index}>
-                  {skill}
-                </option>
-              ));
-            })}
-          </select>
-
-          <select
-            name="orange"
-            id="orange"
-            disabled={nowPlaying.xp < 19}
-            onChange={(event) => {
-              nowPlaying.selectedLevels[1] = event?.currentTarget?.value;
-            }}
-            value={nowPlaying.selectedLevels[1]}
-          >
-            {nowPlaying.levels.map((level) => {
-              const { orange } = level;
-
-              return orange["skill-options"].map(({ skill }, index) => (
-                <option value={skill} key={index}>
-                  {skill}
-                </option>
-              ));
-            })}
-          </select>
-
-          <select
-            name="red"
-            id="red"
-            disabled={nowPlaying.xp !== 43}
-            onChange={(event) => {
-              nowPlaying.selectedLevels[2] = event?.currentTarget?.value;
-            }}
-            value={nowPlaying.selectedLevels[2]}
-          >
-            {nowPlaying.levels.map((level) => {
-              const { red } = level;
-
-              return red["skill-options"].map(({ skill }, index) => (
-                <option value={skill} key={index}>
-                  {skill}
-                </option>
-              ));
-            })}
-          </select>
-        </div>
-      </div>
-
-      <div className={styles.otherSurvivalContainer}>
-        {selectedSurvivals.map(
-          (survival, key) =>
-            survival?.id !== nowPlaying?.id && (
-              <button
-                className={styles.survival}
-                key={key}
-                onClick={() => handleShowSurvivalModal(survival)}
-              >
-                <span>{survival.name}</span>
-
-                <Image
-                  width={120}
-                  height={86}
-                  src={`/f${survival?.id}.webp`}
-                  objectFit="cover"
-                />
+          <div className={styles.survivalImageContainer}>
+            <div className={styles.controlPannel}>
+              <button className={styles.controllers} onClick={prevWave}>
+                <FiChevronLeft />
               </button>
-            )
-        )}
-      </div>
 
-      <div className={styles.footer}>
-        <button className={styles.btnBackHome} onClick={handleGoHome}>
-          <FiHome />
-          Página inicial
-        </button>
-      </div>
+              <button
+                className={styles.controllers}
+                onClick={decreaseSurvivalXP}
+              >
+                <FiMinus />
+              </button>
+            </div>
 
-      {showSurvivalInfo && (
-        <ShowSurvival
-          survival={showingSurvival}
-          closeModal={handleCloseSurvivalModal}
-        />
-      )}
+            {isZombieTurn && (
+              <div className={styles.zombieContainer}>
+                <ZombieCard />
+              </div>
+            )}
+
+            <Image
+              width={100}
+              height={150}
+              src={`/f${nowPlaying?.id}.webp`}
+              objectFit="cover"
+              objectPosition="left"
+            />
+
+            <div className={styles.controlPannel}>
+              <button className={styles.controllers} onClick={nextWave}>
+                <FiChevronRight />
+              </button>
+
+              <button
+                className={styles.controllers}
+                onClick={increaseSurvivalXP}
+              >
+                <FiPlus />
+              </button>
+            </div>
+          </div>
+
+          <div className={styles.skillsOptions}>
+            <select name="blue" id="blue">
+              <option value="1">{nowPlaying.defaultSkill}</option>
+            </select>
+
+            <select
+              name="yellow"
+              id="yellow"
+              disabled={nowPlaying.xp < 7}
+              onChange={(event) => {
+                nowPlaying.selectedLevels[0] = event?.currentTarget?.value;
+              }}
+              value={nowPlaying.selectedLevels[0]}
+            >
+              {nowPlaying.levels.map((level) => {
+                const { yellow } = level;
+
+                return yellow["skill-options"].map(({ skill }, index) => (
+                  <option value={skill} key={index}>
+                    {skill}
+                  </option>
+                ));
+              })}
+            </select>
+
+            <select
+              name="orange"
+              id="orange"
+              disabled={nowPlaying.xp < 19}
+              onChange={(event) => {
+                nowPlaying.selectedLevels[1] = event?.currentTarget?.value;
+              }}
+              value={nowPlaying.selectedLevels[1]}
+            >
+              {nowPlaying.levels.map((level) => {
+                const { orange } = level;
+
+                return orange["skill-options"].map(({ skill }, index) => (
+                  <option value={skill} key={index}>
+                    {skill}
+                  </option>
+                ));
+              })}
+            </select>
+
+            <select
+              name="red"
+              id="red"
+              disabled={nowPlaying.xp !== 43}
+              onChange={(event) => {
+                nowPlaying.selectedLevels[2] = event?.currentTarget?.value;
+              }}
+              value={nowPlaying.selectedLevels[2]}
+            >
+              {nowPlaying.levels.map((level) => {
+                const { red } = level;
+
+                return red["skill-options"].map(({ skill }, index) => (
+                  <option value={skill} key={index}>
+                    {skill}
+                  </option>
+                ));
+              })}
+            </select>
+          </div>
+
+          <div className={styles.otherSurvivalContainer}>
+            {selectedSurvivals.map(
+              (survival, key) =>
+                survival?.id !== nowPlaying?.id && (
+                  <button
+                    className={styles.survival}
+                    key={key}
+                    onClick={() => handleShowSurvivalModal(survival)}
+                  >
+                    <span>{survival.name}</span>
+
+                    <Image
+                      width={120}
+                      height={86}
+                      src={`/f${survival?.id}.webp`}
+                      objectFit="cover"
+                    />
+                  </button>
+                )
+            )}
+          </div>
+
+          <div className={styles.footer}>
+            <button className={styles.btnBackHome} onClick={handleGoHome}>
+              <FiHome />
+              Página inicial
+            </button>
+          </div>
+
+          {showSurvivalInfo && (
+            <ShowSurvival
+              survival={showingSurvival}
+              closeModal={handleCloseSurvivalModal}
+            />
+          )}
+        </div>
+      </div>
     </section>
   );
 }

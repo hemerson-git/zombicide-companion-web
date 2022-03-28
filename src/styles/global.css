@@ -45,7 +45,7 @@ button {
 
 .container {
   max-height: 100vh;
-  width: 100%;
+  width: 100vw;
   padding: 0 16px;
   overflow: hidden;
 }
@@ -71,5 +71,17 @@ button {
 @media (min-width: 1199.98px) {
   .container {
     width: 1140px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  body {
+    min-height: 100vh;
+    height: fit-content;
+    background-attachment: fixed;
+  }
+
+  .container {
+    max-height: unset;
   }
 }

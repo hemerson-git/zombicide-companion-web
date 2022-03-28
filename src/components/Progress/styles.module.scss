@@ -3,6 +3,13 @@
   flex-wrap: nowrap;
   flex: 1;
 
+  @media (max-width: 575.98px) {
+    transform: rotateZ(90deg) translateX(20px);
+    position: absolute;
+    right: -35px;
+    top: calc(50% - 40px);
+  }
+
   height: 3.5rem;
 
   .levelItem {
@@ -12,6 +19,10 @@
     align-items: center;
     justify-content: space-between;
     padding: .3rem 0;
+
+    @media(max-width: 575.98) {
+      padding: .3rem 3px;
+    }
 
 
     border-left: 1px solid var(--semi-transparent);

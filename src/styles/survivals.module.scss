@@ -4,6 +4,10 @@
   h1 {
     text-align: center;
     color: var(--white);
+
+    @media(max-width: 575.98px) {
+      margin-bottom: 24px;
+    }
   }
 
   .survivalsContainer {
